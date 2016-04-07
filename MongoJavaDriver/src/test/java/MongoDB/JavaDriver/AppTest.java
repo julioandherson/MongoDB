@@ -1,4 +1,4 @@
-package MongoDB.jhgj;
+package MongoDB.JavaDriver;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

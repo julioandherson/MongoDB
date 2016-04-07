@@ -8,6 +8,12 @@ import com.mongodb.client.MongoDatabase;
 import static Util.Helpers.printJson;
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
+
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gt;
+import static com.mongodb.client.model.Filters.gte;
+
 /**
  * Hello world!
  *
@@ -46,11 +52,29 @@ public class MongoDriver {
 		printJson(smith);
 		printJson(jones);
 	}
+	
+	public void deleteDocument(){
+        MongoCollection<Document> collection = db.getCollection("deleteTest");
+
+        collection.drop();
+
+        // insert 8 documents, with _id set to the value of the loop variable
+        for (int i = 0; i < 8; i++) {
+            collection.insertOne(new Document().append("_id", i));
+        }
+
+        collection.deleteOne(eq("_id", 4));
+
+        for (Document cur : collection.find().into(new ArrayList<Document>())) {
+            printJson(cur);
+        }
+	}
 
 
 	public static void main(String[] args) {
 		MongoDriver md = new MongoDriver();
-		md.insertDocument();
+//		md.insertDocument();
+		md.deleteDocument();
 
 	}
 }
